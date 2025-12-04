@@ -21,11 +21,12 @@ const Header: React.FC<HeaderProps> = ({ onInstallClick, showInstallButton }) =>
           {showInstallButton && (
              <button
               onClick={onInstallClick}
-              className="hidden sm:flex items-center space-x-2 bg-transparent border border-teal-500 text-teal-400 font-bold py-2 px-4 rounded-full hover:bg-teal-500 hover:text-white transition-colors duration-300 animate-subtle-pulse"
+              className="flex items-center space-x-2 bg-gray-700/50 text-gray-200 font-medium text-sm py-2 px-3 rounded-full hover:bg-gray-600/70 hover:text-white transition-colors duration-300"
               aria-label="Install Aplikasi"
+              title="Tambahkan ke Layar Utama"
             >
-              <InstallIcon className="w-5 h-5" />
-              <span>Install</span>
+              <InstallIcon className="w-5 h-5 text-teal-400" />
+              <span className="hidden sm:inline">Tambahkan ke Layar Utama</span>
             </button>
           )}
           <a 
