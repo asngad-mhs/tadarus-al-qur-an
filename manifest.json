@@ -1,0 +1,16 @@
+{
+  "short_name": "Tadarus Qur'an",
+  "name": "Tadarus Al-Qur'an MP3 Player",
+  "description": "Aplikasi web yang indah dan modern untuk mendengarkan lantunan ayat suci Al-Qur'an.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#14b8a6",
+  "background_color": "#111827"
+}

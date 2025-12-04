@@ -2,15 +2,45 @@ import React, { useState } from 'react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Hapus kesalahan untuk bidang yang sedang diedit
+    if (errors[name as keyof typeof errors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
   };
 
-  const phoneNumber = "6289670924182"; // Nomor HP dengan kode negara Indonesia
-  const messageText = `Halo, saya ingin bertanya.\n\nNama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`;
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
+  const validateForm = (): boolean => {
+    const newErrors: { name?: string; email?: string; message?: string } = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Nama lengkap wajib diisi.';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Alamat email wajib diisi.';
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = 'Format alamat email tidak valid.';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Pesan wajib diisi.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const phoneNumber = "6289670924182"; // Nomor HP dengan kode negara Indonesia
+      const messageText = `Halo, saya ingin bertanya.\n\nNama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`;
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <div id="contact" className="py-16 bg-gray-800/50">
@@ -29,9 +59,10 @@ const Contact: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-white transition-all duration-300"
+                  className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 text-white transition-all duration-300 ${errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-700 focus:ring-teal-500'}`}
                   placeholder="Nama Anda"
                 />
+                {errors.name && <p className="mt-1 text-sm text-red-400">{errors.name}</p>}
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Alamat Email</label>
@@ -42,9 +73,10 @@ const Contact: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-white transition-all duration-300"
+                  className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 text-white transition-all duration-300 ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-700 focus:ring-teal-500'}`}
                   placeholder="anda@contoh.com"
                 />
+                {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email}</p>}
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">Pesan</label>
@@ -55,19 +87,18 @@ const Contact: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-white transition-all duration-300"
+                  className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 text-white transition-all duration-300 ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-700 focus:ring-teal-500'}`}
                   placeholder="Pesan Anda..."
                 />
+                {errors.message && <p className="mt-1 text-sm text-red-400">{errors.message}</p>}
               </div>
               <div className="text-center">
-                <a 
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={handleSubmit}
                   className="inline-block bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
                 >
                   Kirim via WhatsApp
-                </a>
+                </button>
               </div>
           </div>
         </div>

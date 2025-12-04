@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Surah } from './types';
 import { getSurahs } from './services/quranService';
@@ -9,12 +8,48 @@ import Player from './components/Player';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
+// Definisikan tipe untuk event kustom
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed',
+    platform: string,
+  }>;
+  prompt(): Promise<void>;
+}
+
 const App: React.FC = () => {
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [currentSurah, setCurrentSurah] = useState<Surah | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+    setDeferredPrompt(null);
+  };
 
   useEffect(() => {
     const fetchSurahs = async () => {
@@ -62,7 +97,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col">
-      <Header />
+      <Header onInstallClick={handleInstallClick} showInstallButton={!!deferredPrompt} />
       <main className="flex-grow">
         <Hero />
         <div id="surah-list" className="container mx-auto px-4 py-8 md:py-16">
