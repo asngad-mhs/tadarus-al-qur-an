@@ -4,7 +4,7 @@
 // Memberikan tipe pada 'self' untuk TypeScript
 const sw = self;
 
-const CACHE_NAME = 'tadarus-quran-v2';
+const CACHE_NAME = 'tadarus-quran-v3';
 
 // Daftar file yang akan di-cache.
 const URLS_TO_CACHE = [
@@ -12,6 +12,15 @@ const URLS_TO_CACHE = [
   '/index.html',
   '/favicon.svg',
   '/manifest.json',
+  // Ikon PWA baru
+  '/icons/icon-72x72.png',
+  '/icons/icon-96x96.png',
+  '/icons/icon-128x128.png',
+  '/icons/icon-144x144.png',
+  '/icons/icon-152x152.png',
+  '/icons/icon-192x192.png',
+  '/icons/icon-384x384.png',
+  '/icons/icon-512x512.png',
   // Endpoint API untuk daftar surah
   'https://api.alquran.cloud/v1/surah'
 ];
