@@ -1,9 +1,19 @@
-
 import React from 'react';
 
 const Hero: React.FC = () => {
+  // Pola bintang Islami yang subtil sebagai data URI SVG.
+  // Warna rgba(20, 184, 166, 0.05) adalah versi transparan dari warna teal tema.
+  const backgroundPattern = `url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52"%3E%3Cpath fill="rgba(20, 184, 166, 0.05)" d="M26 0 33 19 52 26 33 33 26 52 19 33 0 26 19 19z"/%3E%3C/svg%3E')`;
+
   return (
-    <div className="relative text-center py-20 md:py-32 px-4 bg-cover bg-center" style={{backgroundImage: "url('https://picsum.photos/1600/900?blur=5&random=1')"}}>
+    <div className="relative text-center py-20 md:py-32 px-4 bg-gray-900 overflow-hidden">
+      {/* Pola latar belakang yang statis dan andal */}
+      <div 
+        className="absolute inset-0 bg-repeat" 
+        style={{ backgroundImage: backgroundPattern }}
+        aria-hidden="true"
+      ></div>
+      {/* Lapisan penutup untuk memastikan keterbacaan teks */}
       <div className="absolute inset-0 bg-gray-900 bg-opacity-70"></div>
       <div className="relative z-10">
         <h2 className="text-5xl md:text-7xl font-arabic font-bold text-white mb-4 animate-fade-in-down">
