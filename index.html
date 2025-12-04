@@ -19,6 +19,18 @@
       .font-arabic {
         font-family: 'Scheherazade New', serif;
       }
+      /* Animasi untuk tombol Install */
+      @keyframes subtle-pulse {
+        0%, 100% {
+          box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.5);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(20, 184, 166, 0);
+        }
+      }
+      .animate-subtle-pulse {
+        animation: subtle-pulse 2s infinite;
+      }
     </style>
   <script type="importmap">
 {

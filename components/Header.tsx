@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ onInstallClick, showInstallButton }) =>
           {showInstallButton && (
              <button
               onClick={onInstallClick}
-              className="hidden sm:flex items-center space-x-2 bg-transparent border border-teal-500 text-teal-400 font-bold py-2 px-4 rounded-full hover:bg-teal-500 hover:text-white transition-colors duration-300"
+              className="hidden sm:flex items-center space-x-2 bg-transparent border border-teal-500 text-teal-400 font-bold py-2 px-4 rounded-full hover:bg-teal-500 hover:text-white transition-colors duration-300 animate-subtle-pulse"
               aria-label="Install Aplikasi"
             >
               <InstallIcon className="w-5 h-5" />
